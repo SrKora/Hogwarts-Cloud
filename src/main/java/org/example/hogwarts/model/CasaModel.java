@@ -1,32 +1,27 @@
 package org.example.hogwarts.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "casa")
 public class CasaModel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_casa")
-    private int id;
+    private Long id;
 
-    @Column(name = "nombre_casa")
     private String nombre;
-
-    @Column(name = "fundador")
     private String fundador;
-
-    @OneToOne(mappedBy = "casa")
-    private ProfesorModel jefe;
-
-    @Column(name = "fantasma")
     private String fantasma;
 
+    @OneToOne
+    @JoinColumn(name = "id_jefe")
+    private ProfesorModel jefeCasa;
+
     @OneToMany(mappedBy = "casa")
-    private List<EstudianteModel> estudianteModels;
+    private List<EstudianteModel> estudiantes;
 }

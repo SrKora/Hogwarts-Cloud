@@ -1,5 +1,6 @@
 package org.example.hogwarts.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -9,24 +10,19 @@ import java.util.List;
 @Entity
 @Table(name = "asignatura")
 public class AsignaturaModel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_asignatura")
-    private int id;
+    private Long id;
 
-    @Column(name = "nombre_asignatura")
     private String nombre;
-
-    @Column(name = "aula")
     private String aula;
-
-    @Column(name = "obligatoria")
-    private Boolean obligatoria;
-
-    @ManyToMany(mappedBy = "asignaturas")
-    private List<EstudianteModel> estudianteModels;
+    private boolean obligatoria;
 
     @OneToOne(mappedBy = "asignatura")
-    private ProfesorModel profesorModel;
+    @JsonBackReference
+    private ProfesorModel profesor;
+
+    @OneToMany(mappedBy = "asignatura")
+    private List<EstudianteAsignaturaModel> asignaturas;
 }

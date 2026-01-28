@@ -1,17 +1,14 @@
 package org.example.hogwarts.dtos.response;
 
 import lombok.Data;
-import org.example.hogwarts.model.ProfesorModel;
 
 import java.util.List;
 
 @Data
 public class CasaDto {
-    private int id;
+    private Long id;
     private String nombre;
     private String fundador;
-    private ProfesorModel jefe;
-    private String fantasma;
-    private List<String> estudianteDtos;
-
+    private ProfesorDto jefe;
+    private List<String> estudiantes;
 }

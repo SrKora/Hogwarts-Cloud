@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AsignaturaMapper {
     public AsignaturaDto toDto(AsignaturaModel model) {
-        if (model == null) {
+        if (model == null)  {
             return null;
         }
 
@@ -15,9 +15,8 @@ public class AsignaturaMapper {
         dto.setId(model.getId());
         dto.setNombre(model.getNombre());
         dto.setAula(model.getAula());
-        dto.setObligatoria(model.getObligatoria());
-        dto.setEstudianteDtos(model.getEstudianteModels());
-        dto.setProfesorDto(model.getProfesorModel());
+        dto.setObligatoria(model.isObligatoria());
+        dto.setProfesor(model.getProfesor().getNombre());
 
         return dto;
     }

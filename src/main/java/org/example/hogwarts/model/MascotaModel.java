@@ -7,21 +7,15 @@ import lombok.Data;
 @Entity
 @Table(name = "mascota")
 public class MascotaModel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_mascota")
-    private int id;
+    private Long id;
 
-    @Column(name = "nombre_mascota")
-    private String nombreMascota;
-
-    @Column(name = "especie")
+    private String nombre;
     private String especie;
 
-    @Column(name = "id_estudiante")
-    private int id_estudiante;
-
-    @OneToOne(mappedBy = "mascota")
-    private EstudianteModel estudianteModel;
+    @OneToOne
+    @JoinColumn(name = "id_estudiante")
+    private EstudianteModel estudiante;
 }

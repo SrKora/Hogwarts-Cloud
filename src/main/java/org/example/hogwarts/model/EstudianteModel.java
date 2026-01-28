@@ -3,43 +3,30 @@ package org.example.hogwarts.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "estudiante")
 public class EstudianteModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_estudiante")
-    private int id;
+    private Long idEstudiante;
 
-    @Column(name = "nombre")
     private String nombre;
-
-    @Column(name = "apellido")
     private String apellido;
 
     @ManyToOne
-    @JoinColumn(name = "casa_id")
-    private CasaModel casaModel;
+    @JoinColumn(name = "id_casa")
+    private CasaModel casa;
 
-    @Column(name = "anyo_curso")
     private int anyo_curso;
+    private LocalDate fecha_nacimiento;
 
-    @Column(name = "fecha_nacimiento")
-    private Date fecha_nacimiento;
+    @OneToMany(mappedBy = "estudiante")
+    private List<EstudianteAsignaturaModel> asignaturas;
 
-    @ManyToMany
-    @JoinTable(
-            name = "estudiante_asignatura",
-            joinColumns = @JoinColumn(name = "id_estudiante"),
-            inverseJoinColumns = @JoinColumn(name = "id_asignatura")
-    )
-    private List<AsignaturaModel> asignaturaModels;
-
-    @OneToOne
-    @JoinColumn(name = "mascota", unique = true)
-    private MascotaModel mascotaModel;
+    @OneToOne(mappedBy = "estudiante")
+    private MascotaModel mascota;
 }

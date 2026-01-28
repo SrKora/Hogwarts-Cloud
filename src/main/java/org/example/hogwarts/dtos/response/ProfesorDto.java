@@ -2,12 +2,12 @@ package org.example.hogwarts.dtos.response;
 
 import lombok.Data;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 public class ProfesorDto {
-    private int id;
+    private Long id;
     private String nombre;
-    private String apellido;
-    private Date fecha_inicio;
+    private String asignatura;
+    private LocalDate fechaInicio;
 }

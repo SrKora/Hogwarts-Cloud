@@ -1,34 +1,25 @@
 package org.example.hogwarts.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
 @Table(name = "profesor")
 public class ProfesorModel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_profesor")
-    private int id;
+    private Long id;
 
-    @Column(name = "nombre")
     private String nombre;
-
-    @Column(name = "apellido")
     private String apellido;
+    private LocalDate fecha_inicio;
 
     @OneToOne
-    @JoinColumn(name = "asignatura", unique = true)
-    private AsignaturaModel asignaturaModel;
-
-    @Column(name = "fecha_inicio")
-    private Date fecha_inicio;
-
-    @OneToOne
-    @JoinColumn(name = "casa", unique = true)
-    private CasaModel casaModel;
+    @JoinColumn(name = "id_asignatura")
+    @JsonBackReference
+    private AsignaturaModel asignatura;
 }
