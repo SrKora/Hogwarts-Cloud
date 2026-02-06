@@ -1,6 +1,7 @@
 package org.example.hogwarts.mappers;
 
 import org.example.hogwarts.dtos.request.create.EstudianteCreateDto;
+import org.example.hogwarts.dtos.request.update.EstudianteUpdateDto;
 import org.example.hogwarts.dtos.response.EstudianteDto;
 import org.example.hogwarts.dtos.response.MascotaDto;
 import org.example.hogwarts.model.EstudianteModel;
@@ -49,14 +50,11 @@ public class EstudianteMapper {
         return model;
     }
 
-    public void updateEntityFromDto(EstudianteDto dto, EstudianteModel model) {
+    public void updateEntityFromDto(EstudianteUpdateDto dto, EstudianteModel model) {
         if (dto == null || model == null) return;
 
-        model.setNombre(dto.getNombre()) ;
         model.setAnyo_curso(dto.getAnyoCurso());
         model.setFecha_nacimiento(dto.getFechaNacimiento());
-        model.setFecha_nacimiento(dto.getFechaNacimiento());
-        model.getCasa().setNombre(dto.getNombre());
-        model.setMascota(mascotaMapper.toEntitys(dto.getMascota()));
+        model.setMascota(mascotaMapper.updateEntityFromDto(dto.getMascota(), model.getMascota()));
     }
 }
