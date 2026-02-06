@@ -16,6 +16,6 @@ public class MascotaModel {
     private String especie;
 
     @OneToOne
-    @JoinColumn(name = "id_estudiante")
+    @JoinColumn(name = "id_estudiante", nullable = false)
     private EstudianteModel estudiante;
 }

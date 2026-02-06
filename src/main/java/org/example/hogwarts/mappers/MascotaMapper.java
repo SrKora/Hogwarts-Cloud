@@ -1,5 +1,7 @@
 package org.example.hogwarts.mappers;
 
+import jakarta.validation.constraints.NotBlank;
+import org.example.hogwarts.dtos.request.create.MascotaCreateDto;
 import org.example.hogwarts.dtos.response.MascotaDto;
 import org.example.hogwarts.model.MascotaModel;
 import org.springframework.stereotype.Component;
@@ -20,5 +22,30 @@ public class MascotaMapper {
         }
 
         return dto;
+    }
+
+    public MascotaModel toEntity(MascotaCreateDto dto) {
+        if (dto == null) return null;
+
+        MascotaModel model = new MascotaModel();
+        model.setNombre(dto.getNombre());
+        model.setEspecie(dto.getEspecie());
+        return model;
+    }
+
+    public MascotaModel toEntitys(MascotaDto dto) {
+        if (dto == null) return null;
+
+        MascotaModel model = new MascotaModel();
+        model.setNombre(dto.getNombre());
+        model.setEspecie(dto.getEspecie());
+        return model;
+    }
+
+    public void updateEntityFromDto(MascotaDto dto, MascotaModel model) {
+        if (dto == null || model == null) return;
+
+        model.setNombre(dto.getNombre());
+        model.setEspecie(dto.getEspecie());
     }
 }

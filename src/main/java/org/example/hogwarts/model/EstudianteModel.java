@@ -27,6 +27,7 @@ public class EstudianteModel {
     @OneToMany(mappedBy = "estudiante")
     private List<EstudianteAsignaturaModel> asignaturas;
 
-    @OneToOne(mappedBy = "estudiante")
+    @OneToOne(mappedBy = "estudiante", cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_mascota")
     private MascotaModel mascota;
 }
