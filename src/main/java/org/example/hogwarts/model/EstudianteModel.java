@@ -2,12 +2,14 @@ package org.example.hogwarts.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.SoftDelete;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @Entity
+@SoftDelete(columnName = "deleted")
 @Table(name = "estudiante")
 public class EstudianteModel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

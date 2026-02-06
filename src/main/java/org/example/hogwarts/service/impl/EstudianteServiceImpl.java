@@ -83,13 +83,9 @@ public class EstudianteServiceImpl implements EstudianteService {
     @Override
     @Transactional
     public void eliminarEstudiante(Long id) {
-        EstudianteModel estudiante = estudianteRepo.findById(id)
-                .orElseThrow(() -> new IllegalStateException("El usuario con ID " + id + " no existe."));
-
-        if (!(estudiante.getMascota() == null)) {
-            mascotaRepo.delete(estudiante.getMascota());
+        if (!estudianteRepo.existsById(id)) {
+            throw new NoSuchElementException("No se puede borrar: Estudiante no encontrado");
         }
-
-        estudianteRepo.delete(estudiante);
+        estudianteRepo.deleteById(id);
     }
 }
