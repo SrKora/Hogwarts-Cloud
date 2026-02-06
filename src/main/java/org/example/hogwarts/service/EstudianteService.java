@@ -10,4 +10,5 @@ public interface EstudianteService {
     List<EstudianteDto> obtenerTodosLosEstudiantes();
     EstudianteDto crearEstudiante(EstudianteCreateDto cdto);
     EstudianteDto actualizarEstudiante(Long id, EstudianteUpdateDto cdto);
+    void eliminarEstudiante(Long id);
 }
