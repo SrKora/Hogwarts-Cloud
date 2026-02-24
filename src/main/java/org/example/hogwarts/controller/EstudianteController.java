@@ -22,23 +22,38 @@ public class EstudianteController {
     private EstudianteServiceImpl service;
 
     @GetMapping
-    public ResponseEntity<List<EstudianteDto>> getAll(){
+    public ResponseEntity<List<EstudianteDto>> getAll() {
         List<EstudianteDto> estudiantes = service.obtenerTodosLosEstudiantes();
         return ResponseEntity.ok(estudiantes);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EstudianteDto> estudiante(@PathVariable Long id) {
+        EstudianteDto estudiante = service.obtenerEstudiantePorId(id);
+        return ResponseEntity.ok(estudiante);
+    }
+
     @PostMapping
-    public ResponseEntity<EstudianteDto> createEstudiante(@Valid @RequestBody EstudianteCreateDto createDto){
+    public ResponseEntity<EstudianteDto> createEstudiante(@Valid @RequestBody EstudianteCreateDto createDto) {
         EstudianteDto estudianteCreado = service.crearEstudiante(createDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(estudianteCreado);
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<EstudianteDto> actualizarEstudiante(@PathVariable Long id, @Valid @RequestBody EstudianteUpdateDto udto){
+    public ResponseEntity<EstudianteDto> actualizarEstudiante(@PathVariable Long id,
+            @Valid @RequestBody EstudianteUpdateDto udto) {
         EstudianteDto estudianteActualizado = service.actualizarEstudiante(id, udto);
         return ResponseEntity.ok(estudianteActualizado);
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminiarEstudiante(@PathVariable Long id){
+    public ResponseEntity<Void> eliminiarEstudiante(@PathVariable Long id) {
         service.eliminarEstudiante(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @ExceptionHandler(java.util.NoSuchElementException.class)
+    public ResponseEntity<String> handleNoSuchElement(java.util.NoSuchElementException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 }

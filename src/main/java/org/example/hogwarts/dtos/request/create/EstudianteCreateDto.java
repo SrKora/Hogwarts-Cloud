@@ -16,6 +16,7 @@ public class EstudianteCreateDto {
     private String apellido;
 
     @Min(value = 1, message = "El año debe ser al menos 1")
+    @Max(value = 7, message = "El año no puede ser mayor a 7")
     private int anyoCurso;
 
     @NotNull(message = "Debe introducir la fecha de nacimiento")

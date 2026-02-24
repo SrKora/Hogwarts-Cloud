@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface EstudianteService {
     List<EstudianteDto> obtenerTodosLosEstudiantes();
+    public EstudianteDto obtenerEstudiantePorId(Long id);
     EstudianteDto crearEstudiante(EstudianteCreateDto cdto);
     EstudianteDto actualizarEstudiante(Long id, EstudianteUpdateDto cdto);
     void eliminarEstudiante(Long id);

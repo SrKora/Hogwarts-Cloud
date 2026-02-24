@@ -5,7 +5,6 @@ import org.example.hogwarts.dtos.request.update.EstudianteUpdateDto;
 import org.example.hogwarts.dtos.response.EstudianteDto;
 import org.example.hogwarts.mappers.EstudianteMapper;
 import org.example.hogwarts.model.CasaModel;
-import org.example.hogwarts.model.EstudianteAsignaturaModel;
 import org.example.hogwarts.model.EstudianteModel;
 import org.example.hogwarts.repository.CasaRepository;
 import org.example.hogwarts.repository.EstudianteRepository;
@@ -25,13 +24,12 @@ public class EstudianteServiceImpl implements EstudianteService {
     private final EstudianteRepository estudianteRepo;
     private final EstudianteMapper estudianteMapper;
     private final CasaRepository casaRepo;
-    private final MascotaRepository mascotaRepo; // 1. Añade esto
-
+    private final MascotaRepository mascotaRepo;
     @Autowired
     public EstudianteServiceImpl(EstudianteRepository estudianteRepo,
                                  EstudianteMapper estudianteMapper,
                                  CasaRepository casaRepo,
-                                 MascotaRepository mascotaRepo) { // 2. Inyéctalo
+                                 MascotaRepository mascotaRepo) {
         this.estudianteRepo = estudianteRepo;
         this.estudianteMapper = estudianteMapper;
         this.casaRepo = casaRepo;
@@ -44,6 +42,14 @@ public class EstudianteServiceImpl implements EstudianteService {
         return estudianteRepo.findAll().stream()
                 .map(estudianteMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public EstudianteDto obtenerEstudiantePorId(Long id) {
+        return estudianteMapper.toDto(estudianteRepo
+                .findById(id)
+                .orElseThrow(() ->
+                        new NoSuchElementException("Estudiante no encontrado con id: " + id)));
     }
 
     @Override
@@ -68,12 +74,17 @@ public class EstudianteServiceImpl implements EstudianteService {
     @Override
     @Transactional
     public EstudianteDto actualizarEstudiante(Long id, EstudianteUpdateDto udto) {
+
         EstudianteModel estudiante = estudianteRepo.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Estudiante no encontrado con id: " + id));
 
         estudianteMapper.updateEntityFromDto(udto, estudiante);
 
-        estudiante.getMascota().setEstudiante(estudiante);
+        if (estudiante.getMascota() != null){
+            estudiante.getMascota().setEstudiante(estudiante);
+        } else {
+            estudiante.setMascota(null);
+        }
 
         EstudianteModel estudianteActualizado = estudianteRepo.save(estudiante);
 

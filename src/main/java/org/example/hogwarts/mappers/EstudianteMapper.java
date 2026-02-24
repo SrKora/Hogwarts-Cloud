@@ -3,12 +3,10 @@ package org.example.hogwarts.mappers;
 import org.example.hogwarts.dtos.request.create.EstudianteCreateDto;
 import org.example.hogwarts.dtos.request.update.EstudianteUpdateDto;
 import org.example.hogwarts.dtos.response.EstudianteDto;
-import org.example.hogwarts.dtos.response.MascotaDto;
 import org.example.hogwarts.model.EstudianteModel;
+import org.example.hogwarts.model.MascotaModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 @Component
 public class EstudianteMapper {
@@ -31,9 +29,13 @@ public class EstudianteMapper {
         dto.setCasa(model.getCasa().getNombre());
         dto.setMascota(mascotaMapper.toDto(model.getMascota()));
         if (model.getAsignaturas() != null) {
-            dto.setAsignaturas(model.getAsignaturas().stream()
-                    .map(asignatura -> asignaturaCalificacionMapper.asignaturaDTOToAsignatura(asignatura.getAsignatura()))
-                    .collect(Collectors.toList()));
+            dto.setAsignaturas(
+                    model.getAsignaturas().stream()
+                            .map(modelEA ->
+                                    asignaturaCalificacionMapper.asignaturaDTOToAsignatura(modelEA)
+                            )
+                            .toList()
+            );
         }
         return dto;
     }
@@ -55,6 +57,12 @@ public class EstudianteMapper {
 
         model.setAnyo_curso(dto.getAnyoCurso());
         model.setFecha_nacimiento(dto.getFechaNacimiento());
-        model.setMascota(mascotaMapper.updateEntityFromDto(dto.getMascota(), model.getMascota()));
+        if (dto.getMascota() == null) {
+            model.setMascota(null);
+        } else {
+            MascotaModel mascota = model.getMascota();
+            model.setMascota(mascotaMapper.updateEntityFromDto(dto.getMascota(), mascota));
+        }
+
     }
 }
