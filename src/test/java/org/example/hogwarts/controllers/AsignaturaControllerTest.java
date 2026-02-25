@@ -18,7 +18,6 @@ public class AsignaturaControllerTest {
     private AsignaturaService asignaturaService;
     @Test
     void eliminarAsignatura_ConEstudiantes_DebeFallar() throws Exception {
-        // Simulamos que el servicio lanza una excepción porque hay alumnos
         doThrow(new DataIntegrityViolationException("No se puede eliminar asignatura con estudiantes"))
                 .when(asignaturaService).eliminarAsignatura(1L);
         mockMvc.perform(delete("/hogwarts/asignaturas/1"))
